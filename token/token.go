@@ -13,15 +13,18 @@ const (
 	PLUS  = "+"
 	MINUS = "-"
 	EQUAL = "="
+	EQ    = "=="
+	NOTEQ = "!="
 
 	//Delimitors
 	SEMICOLON = ";"
 	COLON     = ":"
 	COMMA     = ","
-	LPARAN    = "("
-	RPARAN    = ")"
+	LPAREN    = "("
+	RPAREN    = ")"
 	LBRACE    = "{"
 	RBRACE    = "}"
+	BANG      = "!"
 
 	//keywords
 	FUNCTION = "FUNCTION"
@@ -33,4 +36,16 @@ type TokenType string
 type Token struct {
 	Type    TokenType
 	Literal string
+}
+
+var keywords = map[string]TokenType{
+	"fn":  FUNCTION,
+	"let": LET,
+}
+
+func LookupIdent(ident string) TokenType {
+	if tok, ok := keywords[ident]; ok {
+		return tok
+	}
+	return IDENT
 }
