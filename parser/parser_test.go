@@ -78,6 +78,38 @@ let 123;`
 
 }
 
+func Test_ReturnStatement(t *testing.T) {
+	t.Run("should parse return statements successfully", func(t *testing.T) {
+		input := `
+return 1;
+return 2;
+return 3;`
+
+		l := lexer.New(input)
+		p := New(l)
+		program := p.ParseProgram()
+		checkParseErrors(t, p)
+		if program == nil {
+			t.Fatalf("Program have no statements")
+		}
+		if len(program.Statements) != 3 {
+			t.Fatalf("Program doesnt contain 3 statements")
+		}
+
+		for _, val := range program.Statements {
+			stmt, ok := val.(*ast.ReturnStatement)
+			if !ok {
+				t.Fatalf("Return statement assert failed, got type %T", val)
+			}
+			if stmt.TokenLiteral() != "return" {
+				t.Fatalf("return statement token is not 'return', but got value of %s", stmt.TokenLiteral())
+			}
+		}
+
+	})
+
+}
+
 func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 	if s.TokenLiteral() != "let" {
 		t.Errorf("s.TokenLiteral is not let, got=%q", s.TokenLiteral())
