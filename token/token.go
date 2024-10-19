@@ -10,11 +10,16 @@ const (
 	STRING = "STRING"
 
 	//operators
-	PLUS  = "+"
-	MINUS = "-"
-	EQUAL = "="
-	EQ    = "=="
-	NOTEQ = "!="
+	PLUS   = "+"
+	MINUS  = "-"
+	EQUAL  = "="
+	EQ     = "=="
+	NOTEQ  = "!="
+	BANG   = "!"
+	GT     = ">"
+	LT     = "<"
+	ASTRIX = "*"
+	SLASH  = "/"
 
 	//Delimitors
 	SEMICOLON = ";"
@@ -24,7 +29,6 @@ const (
 	RPAREN    = ")"
 	LBRACE    = "{"
 	RBRACE    = "}"
-	BANG      = "!"
 
 	//keywords
 	FUNCTION = "FUNCTION"

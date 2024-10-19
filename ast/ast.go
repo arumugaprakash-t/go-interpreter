@@ -56,7 +56,7 @@ func (l *LetStatement) statementNode() {}
 func (l *LetStatement) String() string {
 	var out bytes.Buffer
 
-	out.WriteString(l.TokenLiteral())
+	out.WriteString(l.TokenLiteral() + " ")
 	out.WriteString(l.Name.Value)
 
 	if l.Value != nil {
@@ -123,4 +123,61 @@ func (e *ExpressionStatement) String() string {
 	}
 
 	return ""
+}
+
+type IntegerLiteral struct {
+	Token token.Token
+	Value int64
+}
+
+func (i *IntegerLiteral) expressionNode() {}
+func (i *IntegerLiteral) TokenLiteral() string {
+	return i.Token.Literal
+}
+func (i *IntegerLiteral) String() string {
+	return i.Token.Literal
+}
+
+type PrefixExpression struct {
+	Token           token.Token
+	Operator        string
+	RightExpression Expression
+}
+
+func (p *PrefixExpression) expressionNode() {}
+func (p *PrefixExpression) TokenLiteral() string {
+	return p.Token.Literal
+}
+func (p *PrefixExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("(")
+	out.WriteString(p.Operator)
+	out.WriteString(p.RightExpression.String())
+	out.WriteString(")")
+
+	return out.String()
+
+}
+
+type InfixExpression struct {
+	Token    token.Token
+	Left     Expression
+	Right    Expression
+	Operator string
+}
+
+func (i *InfixExpression) expressionNode() {}
+func (i *InfixExpression) TokenLiteral() string {
+	return i.Token.Literal
+}
+func (i *InfixExpression) String() string {
+	var out bytes.Buffer
+	out.WriteString("(")
+	out.WriteString(i.Left.String())
+	out.WriteString(" ")
+	out.WriteString(i.Right.String())
+	out.WriteString(" )")
+	return out.String()
+
 }

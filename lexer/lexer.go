@@ -36,18 +36,21 @@ func (l *Lexer) NextToken() token.Token {
 	switch l.ch {
 	case '=':
 		if l.peekChar() == '=' {
-			tok = newToken(token.EQ, l.ch+l.ch)
+			ch := l.ch
 			l.readChar()
-			return tok
+			tok = token.Token{Type: token.EQ, Literal: string(ch) + string(ch)}
+		} else {
+			tok = newToken(token.EQUAL, l.ch)
 		}
-		tok = newToken(token.EQUAL, l.ch)
+
 	case '!':
 		if l.peekChar() == '=' {
-			tok = newToken(token.NOTEQ, l.ch+l.ch)
+			tok = token.Token{Type: token.NOTEQ, Literal: string(l.ch) + string(l.peekChar())}
 			l.readChar()
-			return tok
+		} else {
+			tok = newToken(token.BANG, l.ch)
 		}
-		tok = newToken(token.BANG, l.ch)
+
 	case ';':
 		tok = newToken(token.SEMICOLON, l.ch)
 	case '(':
@@ -64,6 +67,16 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.RBRACE, l.ch)
 	case ':':
 		tok = newToken(token.COLON, l.ch)
+	case '-':
+		tok = newToken(token.MINUS, l.ch)
+	case '/':
+		tok = newToken(token.SLASH, l.ch)
+	case '>':
+		tok = newToken(token.GT, l.ch)
+	case '<':
+		tok = newToken(token.LT, l.ch)
+	case '*':
+		tok = newToken(token.ASTRIX, l.ch)
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
